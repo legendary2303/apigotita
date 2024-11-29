@@ -10,12 +10,12 @@ import jwt from "jsonwebtoken";
 export const signUp = async (req, res) => {
 
 //extrare datos del cuerpo de la peticion
-const { username, email, password } = req.body;
+const { username, /*email,*/ password } = req.body;
 
 //crear nuevo usuario
 const newUser = new User({
     username,
-    email,
+    //email,
     password: await User.encryptPassword(password)
 });
 
@@ -32,8 +32,8 @@ res.json(newUser);
 }
 
 export const signIn = async (req, res) => {
-    //buscar usuario por correo
-    const userFound = await User.findOne({email : req.body.email});
+    //buscar usuario por nombre
+    const userFound = await User.findOne({username : req.body.username});
 
     //si no se encuantra el usuario, enviar mensaje de error
     if(!userFound) return res.status(400).json({ message: "Usuario no reconocido"});
